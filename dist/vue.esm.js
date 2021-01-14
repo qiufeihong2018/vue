@@ -1916,25 +1916,25 @@ function flushCallbacks () {
   }
 }
 
-// Here we have async deferring wrappers using microtasks.
-// In 2.5 we used (macro) tasks (in combination with microtasks).
-// However, it has subtle problems when state is changed right before repaint
-// (e.g. #6813, out-in transitions).
-// Also, using (macro) tasks in event handler would cause some weird behaviors
-// that cannot be circumvented (e.g. #7109, #7153, #7546, #7834, #8109).
-// So we now use microtasks everywhere, again.
-// A major drawback of this tradeoff is that there are some scenarios
-// where microtasks have too high a priority and fire in between supposedly
-// sequential events (e.g. #4521, #6690, which have workarounds)
-// or even between bubbling of the same event (#6566).
+// Here we have async deferring wrappers using microtasks.这里我们有使用微任务的异步延迟包装器。
+// In 2.5 we used (macro) tasks (in combination with microtasks).在2.5中，我们使用了(宏)任务(与微任务结合使用)。
+// However, it has subtle problems when state is changed right before repaint然而，当状态在重新绘制之前更改时，它会有一些微妙的问题
+// (e.g. #6813, out-in transitions).(例如:#6813，外-内转换)。
+// Also, using (macro) tasks in event handler would cause some weird behaviors同样，在事件处理程序中使用(宏)任务会导致一些奇怪的行为
+// that cannot be circumvented (e.g. #7109, #7153, #7546, #7834, #8109).这是无法规避的(例如:#7109，#7153，#7546，#7834，#8109)。
+// So we now use microtasks everywhere, again.所以我们现在到处都在使用微任务。
+// A major drawback of this tradeoff is that there are some scenarios这种权衡的一个主要缺点是存在一些场景
+// where microtasks have too high a priority and fire in between supposedly微任务的优先级太高，而fire介于两者之间
+// sequential events (e.g. #4521, #6690, which have workarounds)连续事件(例如:#4521，#6690，它们有解决方案)
+// or even between bubbling of the same event (#6566).或者甚至在同一个事件(#6566)的冒泡之间。
 var timerFunc;
 
-// The nextTick behavior leverages the microtask queue, which can be accessed
-// via either native Promise.then or MutationObserver.
-// MutationObserver has wider support, however it is seriously bugged in
-// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
-// completely stops working after triggering a few times... so, if native
-// Promise is available, we will use it:
+// The nextTick behavior leverages the microtask queue, which can be accessed nextTick行为利用了可以访问的微任务队列
+// via either native Promise.then or MutationObserver. 通过原生的Promise。然后或MutationObserver。
+// MutationObserver has wider support, however it is seriously bugged in MutationObserver获得了更广泛的支持，尽管它被严重窃听了
+// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It UIWebView在iOS的>= 9.3.3时触发触摸事件处理程序。它
+// completely stops working after triggering a few times... so, if native 触发几次后完全停止工作…所以,如果本地
+// Promise is available, we will use it: Promise是可用的，我们将使用它:
 /* istanbul ignore next, $flow-disable-line */
 if (typeof Promise !== 'undefined' && isNative(Promise)) {
   var p = Promise.resolve();
