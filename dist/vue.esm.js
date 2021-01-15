@@ -7,8 +7,8 @@
 
 var emptyObject = Object.freeze({});
 
-// These helpers produce better VM code in JS engines due to their
-// explicitness and function inlining.
+// These helpers produce better VM code in JS engines due to their这些辅助程序在JS引擎中生成更好的VM代码
+// explicitness and function inlining.显式和函数内联。
 function isUndef (v) {
   return v === undefined || v === null
 }
@@ -26,7 +26,7 @@ function isFalse (v) {
 }
 
 /**
- * Check if value is primitive.
+ * Check if value is primitive.检查value是否为primitive
  */
 function isPrimitive (value) {
   return (
@@ -39,26 +39,56 @@ function isPrimitive (value) {
 }
 
 /**
- * Quick object check - this is primarily used to tell
- * Objects from primitive values when we know the value
- * is a JSON-compliant type.
+ * Quick object check - this is primarily used to tell快速对象检查-这主要用于告诉
+ * Objects from primitive values when we know the value对象从我们知道的原始值的值
+ * is a JSON-compliant type.是一个json兼容类型。
  */
 function isObject (obj) {
   return obj !== null && typeof obj === 'object'
 }
 
 /**
- * Get the raw type string of a value, e.g., [object Object].
+ * Get the raw type string of a value, e.g., [object Object].获取一个值的原始类型字符串，例如[object object]。
  */
 var _toString = Object.prototype.toString;
 
 function toRawType (value) {
   return _toString.call(value).slice(8, -1)
 }
+// toRawType()
+// "Undefined"
+// toRawType({})
+// "Object"
+// toRawType([])
+// "Array"
+// toRawType('')
+// "String"
+// toRawType(1111)
+// "Number"
+// toRawType(null)
+// "Null"
+// toRawType(function(){return null})
+// "Function"
+// toRawType(/[a-z]/)
+// "RegExp"
+
+
+// var _toString = Object.prototype.toString;
+
+// function toRawType (value) {
+//   return _toString.call(value)
+// }
+// undefined
+// toRawType({})
+// "[object Object]"
+
+// 截取后面的类型
+
+
 
 /**
- * Strict object type check. Only returns true
- * for plain JavaScript objects.
+ * Strict object type check. Only returns true严格对象类型检查。只返回true
+ * for plain JavaScript objects.对于纯JavaScript对象。
  */
 function isPlainObject (obj) {
   return _toString.call(obj) === '[object Object]'
@@ -68,13 +98,25 @@ function isRegExp (v) {
   return _toString.call(v) === '[object RegExp]'
 }
 
+// isRegExp(/[a-z]/)
+// true
+// isRegExp(1)
+// false
+
 /**
- * Check if val is a valid array index.
+ * Check if val is a valid array index.检查val是否为有效的数组索引。
  */
 function isValidArrayIndex (val) {
   var n = parseFloat(String(val));
   return n >= 0 && Math.floor(n) === n && isFinite(val)
 }
+
+// isValidArrayIndex(1.1)
+// false
+
+// isValidArrayIndex(1)
+// true
+
 
 function isPromise (val) {
   return (
