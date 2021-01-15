@@ -127,7 +127,7 @@ function isPromise (val) {
 }
 
 /**
- * Convert a value to a string that is actually rendered.
+ * Convert a value to a string that is actually rendered.将值转换为实际呈现的字符串。
  */
 function toString (val) {
   return val == null
@@ -138,8 +138,8 @@ function toString (val) {
 }
 
 /**
- * Convert an input value to a number for persistence.
- * If the conversion fails, return original string.
+ * Convert an input value to a number for persistence.将输入值转换为一个数字以实现持久性。
+ * If the conversion fails, return original string.如果转换失败，返回原始字符串。
  */
 function toNumber (val) {
   var n = parseFloat(val);
@@ -147,8 +147,8 @@ function toNumber (val) {
 }
 
 /**
- * Make a map and return a function for checking if a key
- * is in that map.
+ * Make a map and return a function for checking if a key创建一个映射并返回一个函数来检查是否有键
+ * is in that map.在map上。
  */
 function makeMap (
   str,
