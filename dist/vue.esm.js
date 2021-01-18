@@ -165,17 +165,17 @@ function makeMap (
 }
 
 /**
- * Check if a tag is a built-in tag.
+ * Check if a tag is a built-in tag.检查标签是否为内置标签。
  */
 var isBuiltInTag = makeMap('slot,component', true);
 
 /**
- * Check if an attribute is a reserved attribute.
+ * Check if an attribute is a reserved attribute.检查一个属性是否为保留属性。
  */
 var isReservedAttribute = makeMap('key,ref,slot,slot-scope,is');
 
 /**
- * Remove an item from an array.
+ * Remove an item from an array.从数组中移除项。
  */
 function remove (arr, item) {
   if (arr.length) {
@@ -187,7 +187,7 @@ function remove (arr, item) {
 }
 
 /**
- * Check whether an object has the property.
+ * Check whether an object has the property.检查一个对象是否具有该属性。
  */
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 function hasOwn (obj, key) {
@@ -195,7 +195,7 @@ function hasOwn (obj, key) {
 }
 
 /**
- * Create a cached version of a pure function.
+ * Create a cached version of a pure function.创建纯函数的缓存版本。
  */
 function cached (fn) {
   var cache = Object.create(null);
@@ -206,7 +206,7 @@ function cached (fn) {
 }
 
 /**
- * Camelize a hyphen-delimited string.
+ * Camelize a hyphen-delimited string.Camelize一个以连字符分隔的字符串。
  */
 var camelizeRE = /-(\w)/g;
 var camelize = cached(function (str) {
@@ -214,14 +214,14 @@ var camelize = cached(function (str) {
 });
 
 /**
- * Capitalize a string.
+ * Capitalize a string.利用一个字符串。
  */
 var capitalize = cached(function (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 });
 
 /**
- * Hyphenate a camelCase string.
+ * Hyphenate a camelCase string.驼峰字符串用连字符。
  */
 var hyphenateRE = /\B([A-Z])/g;
 var hyphenate = cached(function (str) {
@@ -234,6 +234,11 @@ var hyphenate = cached(function (str) {
  * since native bind is now performant enough in most browsers.
  * But removing it would mean breaking code that was able to run in
  * PhantomJS 1.x, so this must be kept for backward compatibility.
+ *简单的绑定填充环境不支持它，
+例如:PhantomJS 1.x。严格来说，我们不需要这个了
+*现在本地绑定在大多数浏览器中都有足够的性能。
+*但是删除它将意味着破坏能够运行的代码
+* PhantomJS 1。x，因此为了向后兼容，必须保留它。
  */
 
 /* istanbul ignore next */
@@ -260,7 +265,7 @@ var bind = Function.prototype.bind
   : polyfillBind;
 
 /**
- * Convert an Array-like object to a real Array.
+ * Convert an Array-like object to a real Array.将类数组对象转换为实数组。
  */
 function toArray (list, start) {
   start = start || 0;
@@ -273,7 +278,7 @@ function toArray (list, start) {
 }
 
 /**
- * Mix properties into target object.
+ * Mix properties into target object.将属性混合到目标对象中。
  */
 function extend (to, _from) {
   for (var key in _from) {
@@ -282,8 +287,11 @@ function extend (to, _from) {
   return to
 }
 
+
+
+
 /**
- * Merge an Array of Objects into a single Object.
+ * Merge an Array of Objects into a single Object.将对象数组合并为单个对象。
  */
 function toObject (arr) {
   var res = {};
@@ -295,29 +303,41 @@ function toObject (arr) {
   return res
 }
 
+// const a=[{b:{c:'d'}},{e:{f:{g:"h"}}}]
+// typeof a[0]
+// "object"
+// typeof toObject(a)
+// "object"
+// // {b: {…}}
+
+// extend属性混合，不太明白有啥区别
+
 /* eslint-disable no-unused-vars */
 
 /**
  * Perform no operation.
  * Stubbing args to make Flow happy without leaving useless transpiled code
  * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/).
+ *不执行任何操作。
+*存根参数使流愉快，而不会留下无用的编译代码
+*与…rest(https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/)。
  */
 function noop (a, b, c) {}
 
 /**
- * Always return false.
+ * Always return false.总是返回false。
  */
 var no = function (a, b, c) { return false; };
 
 /* eslint-enable no-unused-vars */
 
 /**
- * Return the same value.
+ * Return the same value.返回相同的值。
  */
 var identity = function (_) { return _; };
 
 /**
- * Generate a string containing static keys from compiler modules.
+ * Generate a string containing static keys from compiler modules.从编译器模块中生成一个包含静态键的字符串。
  */
 function genStaticKeys (modules) {
   return modules.reduce(function (keys, m) {
@@ -328,6 +348,8 @@ function genStaticKeys (modules) {
 /**
  * Check if two values are loosely equal - that is,
  * if they are plain objects, do they have the same shape?
+ *检查两个值是否loosely相等-即is，
+*如果它们是普通objects，它们的形状是否相同?
  */
 function looseEqual (a, b) {
   if (a === b) { return true }
@@ -368,6 +390,9 @@ function looseEqual (a, b) {
  * Return the first index at which a loosely equal value can be
  * found in the array (if value is a plain object, the array must
  * contain an object of the same shape), or -1 if it is not present.
+ 返回一个大致相等的值的第一个索引
+*在数组中找到(如果value是一个普通对象，数组必须
+*包含相同形状的对象)，如果不存在，则为-1。
  */
 function looseIndexOf (arr, val) {
   for (var i = 0; i < arr.length; i++) {
@@ -377,7 +402,7 @@ function looseIndexOf (arr, val) {
 }
 
 /**
- * Ensure a function is called only once.
+ * Ensure a function is called only once.确保一个函数只被调用一次。
  */
 function once (fn) {
   var called = false;
@@ -388,15 +413,15 @@ function once (fn) {
     }
   }
 }
-
+// SSR属性
 var SSR_ATTR = 'data-server-rendered';
-
+// 静态类型
 var ASSET_TYPES = [
   'component',
   'directive',
   'filter'
 ];
-
+// 生命周期钩子
 var LIFECYCLE_HOOKS = [
   'beforeCreate',
   'created',
@@ -418,48 +443,48 @@ var LIFECYCLE_HOOKS = [
 
 var config = ({
   /**
-   * Option merge strategies (used in core/util/options)
+   * Option merge strategies (used in core/util/options)选项合并策略(在core/util/options中使用)
    */
   // $flow-disable-line
   optionMergeStrategies: Object.create(null),
 
   /**
-   * Whether to suppress warnings.
+   * Whether to suppress warnings.是否抑制警告。
    */
   silent: false,
 
   /**
-   * Show production mode tip message on boot?
+   * Show production mode tip message on boot?在启动时显示产模式提示信息?
    */
   productionTip: process.env.NODE_ENV !== 'production',
 
   /**
-   * Whether to enable devtools
+   * Whether to enable devtools是否启用开发者工具
    */
   devtools: process.env.NODE_ENV !== 'production',
 
   /**
-   * Whether to record perf
+   * Whether to record perf是否记录性能
    */
   performance: false,
 
   /**
-   * Error handler for watcher errors
+   * Error handler for watcher errors错误处理观察错误
    */
   errorHandler: null,
 
   /**
-   * Warn handler for watcher warns
+   * Warn handler for watcher warns对于观察者警告的Warn处理程序
    */
   warnHandler: null,
 
   /**
-   * Ignore certain custom elements
+   * Ignore certain custom elements忽略某些自定义元素
    */
   ignoredElements: [],
 
   /**
-   * Custom user key aliases for v-on
+   * Custom user key aliases for v-onv-on的自定义用户密钥别名
    */
   // $flow-disable-line
   keyCodes: Object.create(null),
@@ -467,45 +492,55 @@ var config = ({
   /**
    * Check if a tag is reserved so that it cannot be registered as a
    * component. This is platform-dependent and may be overwritten.
+   *检查标签是否被保留，使其不能被注册为一个
+   *组件。这是依赖于平台的，可能会被覆盖。
    */
   isReservedTag: no,
 
   /**
    * Check if an attribute is reserved so that it cannot be used as a component
    * prop. This is platform-dependent and may be overwritten.
+   *检查一个属性是否被保留，这样它就不能被用作组件
+   *prop。这是依赖于平台的，可能会被覆盖。
    */
   isReservedAttr: no,
 
   /**
    * Check if a tag is an unknown element.
    * Platform-dependent.
+   *检查标签是否为未知元素。
+   *与平台相关的。
    */
   isUnknownElement: no,
 
   /**
-   * Get the namespace of an element
+   * Get the namespace of an element获取元素的名称空间
    */
   getTagNamespace: noop,
 
   /**
-   * Parse the real tag name for the specific platform.
+   * Parse the real tag name for the specific platform.解析特定平台的真实标记名。
    */
   parsePlatformTagName: identity,
 
   /**
    * Check if an attribute must be bound using property, e.g. value
    * Platform-dependent.
+   *检查一个属性是否必须使用property绑定，例如value
+   *与平台相关的。
    */
   mustUseProp: no,
 
   /**
    * Perform updates asynchronously. Intended to be used by Vue Test Utils
    * This will significantly reduce performance if set to false.
+*异步更新。用于Vue测试Utils
+*如果设置为false，将显著降低性能。
    */
   async: true,
 
   /**
-   * Exposed for legacy reasons
+   * Exposed for legacy reasons由于遗留原因而暴露
    */
   _lifecycleHooks: LIFECYCLE_HOOKS
 });
