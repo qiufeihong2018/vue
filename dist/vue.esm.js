@@ -551,11 +551,14 @@ var config = ({
  * unicode letters used for parsing html tags, component names and property paths.
  * using https://www.w3.org/TR/html53/semantics-scripting.html#potentialcustomelementname
  * skipping \u10000-\uEFFFF due to it freezing up PhantomJS
+ *用于解析html标签、组件名称和属性路径的unicode字母。
+ *使用https://www.w3.org/TR/html53/semantics-scripting.html potentialcustomelementname
+ *跳过\u10000- uEFFFF，因为它冻结幻影js
  */
 var unicodeRegExp = /a-zA-Z\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD/;
 
 /**
- * Check if a string starts with $ or _
+ * Check if a string starts with $ or _检查字符串是否以$或_开头
  */
 function isReserved (str) {
   var c = (str + '').charCodeAt(0);
@@ -563,7 +566,7 @@ function isReserved (str) {
 }
 
 /**
- * Define a property.
+ * Define a property.定义一个属性。
  */
 function def (obj, key, val, enumerable) {
   Object.defineProperty(obj, key, {
@@ -575,7 +578,7 @@ function def (obj, key, val, enumerable) {
 }
 
 /**
- * Parse simple path.
+ * Parse simple path.解析简单路径。
  */
 var bailRE = new RegExp(("[^" + (unicodeRegExp.source) + ".$_\\d]"));
 function parsePath (path) {
@@ -594,10 +597,10 @@ function parsePath (path) {
 
 /*  */
 
-// can we use __proto__?
+// can we use __proto__?我们可以用__proto__吗?
 var hasProto = '__proto__' in {};
 
-// Browser environment sniffing
+// Browser environment sniffing浏览器环境中嗅探
 var inBrowser = typeof window !== 'undefined';
 var inWeex = typeof WXEnvironment !== 'undefined' && !!WXEnvironment.platform;
 var weexPlatform = inWeex && WXEnvironment.platform.toLowerCase();
@@ -611,7 +614,7 @@ var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
 var isPhantomJS = UA && /phantomjs/.test(UA);
 var isFF = UA && UA.match(/firefox\/(\d+)/);
 
-// Firefox has a "watch" function on Object.prototype...
+// Firefox has a "watch" function on Object.prototype...Firefox在Object.prototype上有一个“watch”功能…
 var nativeWatch = ({}).watch;
 
 var supportsPassive = false;
@@ -628,8 +631,8 @@ if (inBrowser) {
   } catch (e) {}
 }
 
-// this needs to be lazy-evaled because vue may be required before
-// vue-server-renderer can set VUE_ENV
+// this needs to be lazy-evaled because vue may be required before这需要进行延迟评估，因为以前可能需要vue
+// vue-server-renderer can set VUE_ENVvue-server-renderer可以设置VUE_ENV
 var _isServer;
 var isServerRendering = function () {
   if (_isServer === undefined) {
@@ -645,7 +648,7 @@ var isServerRendering = function () {
   return _isServer
 };
 
-// detect devtools
+// detect devtools检测devtools
 var devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
 
 /* istanbul ignore next */
@@ -663,7 +666,7 @@ if (typeof Set !== 'undefined' && isNative(Set)) {
   // use native Set when available.
   _Set = Set;
 } else {
-  // a non-standard Set polyfill that only works with primitive keys.
+  // a non-standard Set polyfill that only works with primitive keys.一个非标准的集合填充，只对原始键有效。
   _Set = /*@__PURE__*/(function () {
     function Set () {
       this.set = Object.create(null);
@@ -686,7 +689,7 @@ if (typeof Set !== 'undefined' && isNative(Set)) {
 
 var warn = noop;
 var tip = noop;
-var generateComponentTrace = (noop); // work around flow check
+var generateComponentTrace = (noop); // work around flow check绕流检查工作
 var formatComponentName = (noop);
 
 if (process.env.NODE_ENV !== 'production') {
