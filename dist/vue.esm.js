@@ -786,6 +786,8 @@ var uid = 0;
 /**
  * A dep is an observable that can have multiple
  * directives subscribing to it.
+   dep是一个可以有多个的可见对象
+   订阅它的指令。
  */
 var Dep = function Dep () {
   this.id = uid++;
@@ -807,12 +809,15 @@ Dep.prototype.depend = function depend () {
 };
 
 Dep.prototype.notify = function notify () {
-  // stabilize the subscriber list first
+  // stabilize the subscriber list first首先稳定订阅服务器列表
   var subs = this.subs.slice();
   if (process.env.NODE_ENV !== 'production' && !config.async) {
     // subs aren't sorted in scheduler if not running async
     // we need to sort them now to make sure they fire in correct
     // order
+    // subs在scheduler中不排序，如果不运行异步
+//我们现在需要对它们进行排序，以确保它们正确地发射
+//订单
     subs.sort(function (a, b) { return a.id - b.id; });
   }
   for (var i = 0, l = subs.length; i < l; i++) {
@@ -823,6 +828,9 @@ Dep.prototype.notify = function notify () {
 // The current target watcher being evaluated.
 // This is globally unique because only one watcher
 // can be evaluated at a time.
+//当前正在评估的目标观察者。
+//这是全局唯一的，因为只有一个观察者
+//可以一次求值。
 Dep.target = null;
 var targetStack = [];
 
@@ -896,17 +904,18 @@ function createTextVNode (val) {
   return new VNode(undefined, undefined, undefined, String(val))
 }
 
-// optimized shallow clone
-// used for static nodes and slot nodes because they may be reused across
-// multiple renders, cloning them avoids errors when DOM manipulations rely
-// on their elm reference.
+// optimized shallow clone 优化浅拷贝
+// used for static nodes and slot nodes because they may be reused across 用于静态节点和slot节点因为他们可能被重复利用
+// multiple renders, cloning them avoids errors when DOM manipulations rely 多重渲染，克隆他们以避免错误当dom操作依赖
+// on their elm reference. 在他们的元素上。
 function cloneVNode (vnode) {
   var cloned = new VNode(
     vnode.tag,
     vnode.data,
     // #7975
     // clone children array to avoid mutating original in case of cloning
-    // a child.
+    // a child.//克隆子数组以避免在克隆的情况下原始的突变
+//一个child。
     vnode.children && vnode.children.slice(),
     vnode.text,
     vnode.elm,
@@ -929,6 +938,8 @@ function cloneVNode (vnode) {
 /*
  * not type checking this file because flow doesn't play well with
  * dynamically accessing methods on Array prototype
+ 不要检查该文件的类型，因为流不能很好地发挥作用
+动态访问数组原型的方法
  */
 
 var arrayProto = Array.prototype;
@@ -945,10 +956,10 @@ var methodsToPatch = [
 ];
 
 /**
- * Intercept mutating methods and emit events
+ * Intercept mutating methods and emit events拦截突变的方法并发出事件
  */
 methodsToPatch.forEach(function (method) {
-  // cache original method
+  // cache original method缓存原始方法
   var original = arrayProto[method];
   def(arrayMethods, method, function mutator () {
     var args = [], len = arguments.length;
@@ -967,7 +978,7 @@ methodsToPatch.forEach(function (method) {
         break
     }
     if (inserted) { ob.observeArray(inserted); }
-    // notify change
+    // notify change订阅改变
     ob.dep.notify();
     return result
   });
@@ -979,7 +990,8 @@ var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
 
 /**
  * In some cases we may want to disable observation inside a component's
- * update computation.
+ * update computation.*在某些情况下，我们可能想要禁用组件内部的观察
+*更新计算。
  */
 var shouldObserve = true;
 
